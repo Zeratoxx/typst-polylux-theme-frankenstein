@@ -1,0 +1,8 @@
+= Frankenstein - A Typst Polylux Theme 
+
+Typst: https://typst.app/ +
+Polylux for Typst: https://polylux.dev/book/
+
+== Why "Frankenstein"?
+
+This theme is a mixed combination out of https://polylux.dev/book/themes/themes.html[all existing default themes by Polylux] and tweaked so it comes all together.
