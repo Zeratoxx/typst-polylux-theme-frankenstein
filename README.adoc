@@ -6,3 +6,26 @@ Polylux for Typst: https://polylux.dev/book/
 == Why "Frankenstein"?
 
 This theme is a mixed combination out of https://polylux.dev/book/themes/themes.html[all existing default themes by Polylux] and tweaked so it comes all together.
+
+
+== links
+- https://github.com/andreasKroepelin/polylux/tree/main/themes
+- https://polylux.dev/book/themes/gallery/simple.html
+- https://github.com/andreasKroepelin/polylux/blob/main/themes/simple.typ
+- https://polylux.dev/book/themes/gallery/clean.html
+- https://github.com/andreasKroepelin/polylux/blob/main/themes/clean.typ
+- https://polylux.dev/book/themes/gallery/metropolis.html
+- https://github.com/andreasKroepelin/polylux/blob/main/themes/metropolis.typ
+- https://polylux.dev/book/themes/gallery/university.html
+- https://github.com/andreasKroepelin/polylux/blob/main/themes/university.typ
+- https://polylux.dev/book/themes/gallery/bipartite.html
+- https://github.com/andreasKroepelin/polylux/blob/main/themes/bipartite.typ
+- https://github.com/andreasKroepelin/polylux/pull/160
+- https://github.com/andreasKroepelin/polylux/files/14886185/ratio.pdf
+- https://github.com/andreasKroepelin/polylux/pull/160/files#diff-597f467caf81e29d88d946817a391cc17069487301deeb90dd1de79b8f9b459d
+- https://github.com/andreasKroepelin/polylux/blob/08c9912b7b97c440e1ef31f6f429db4d62196cfa/themes/ratio.typ
+- https://github.com/andreasKroepelin/polylux/blob/08c9912b7b97c440e1ef31f6f429db4d62196cfa/utils/utils.typ
+- https://github.com/andreasKroepelin/polylux/blob/main/utils/utils.typ
+- https://polylux.dev/book/themes/your-own.html
+- https://polylux.dev/book/utils/sections.html
+- 
