@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "myriad-dreamin.tinymist",
-        "asciidoctor.asciidoctor-vscode"
+        "asciidoctor.asciidoctor-vscode",
+        "mhutchie.git-graph"
     ]
 }
