@@ -9,6 +9,7 @@ This theme is a mixed combination out of https://polylux.dev/book/themes/themes.
 
 
 == links
+
 - https://github.com/andreasKroepelin/polylux/tree/main/themes
 - https://polylux.dev/book/themes/gallery/simple.html
 - https://github.com/andreasKroepelin/polylux/blob/main/themes/simple.typ
