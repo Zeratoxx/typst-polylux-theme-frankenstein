@@ -518,7 +518,7 @@
       // Combine into a block that fills the header.
       // TODO place location through parameter, block fill color through options
       place(bottom, block(fill: _frankenstein-palette.transparent, width: 100%, align(horizon, {
-        pad(x: 2em, y: 1.4em, grid(columns: (1fr, 15fr, 1fr), gutter: .4em, ..content))
+        pad(x: 2em, y: 1em, grid(columns: (1fr, 15fr, 1fr), gutter: .4em, ..content))
       })))
     },
   )
