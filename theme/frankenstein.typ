@@ -104,7 +104,7 @@
   // The version of your work.
   version: "Draft",
   // Default font settings.
-  text: (font: ("Inter","Noto Sans", "Open Sans"), size: 18pt),
+  text: (font: ("Inter", "Lato", "Noto Sans", "Open Sans"), size: 18pt),
   // Default language settings.
   lang: "en",
   // Whether to register headings as sections and subsections.
@@ -128,7 +128,7 @@
   title-hero-color: _frankenstein-palette.secondary-800,
   // Title text style.
   title-text: (
-    font: ("Segoe UI", "Inter", "Cantarell", "Noto Sans", "Open Sans"),
+    font: ("Segoe UI", "Cantarell", "Inter", "Noto Sans", "Open Sans"),
     size: 20pt,
     fill: _frankenstein-palette.contrast,
   ),
@@ -137,27 +137,27 @@
   // Title author text heading overrides.
   title-author-text: (:),
   // Title affiliation text overrides.
-  title-affiliation-text: (size: 0.7em, weight: "thin"),
+  title-affiliation-text: (size: 0.7em, weight: "light"),
   // Title abstract text overrides.
   title-abstract-text: (:),
   // Title date and version text override.
-  title-version-text: (size: 0.7em, weight: "thin"),
+  title-version-text: (size: 0.7em, weight: "light"),
   // Title vertical spacing.
   title-gutter: 9%,
   // Common heading text style.
   heading-text: (font: ("Inter", "Cantarell", "Noto Sans", "Open Sans"), hyphenate: false),
   // Heading text style overrides in order of heading depth.
-  heading-texts: ((/* depth 1 */ fill: _frankenstein-palette.secondary-800, size: 35pt), (/* depth 2 */ size: 28pt), (/* depth 3 */ size: 23pt), /* depth ... */ ),
+  heading-texts: (
+    (/* depth 1 */fill: _frankenstein-palette.secondary-800, size: 35pt),
+    (/* depth 2 */size: 28pt),
+    (/* depth 3 */size: 23pt), /* depth ... */
+  ),
   // Heading alignments in order of heading depth.
   heading-alignments: (left,),
   // Slide content box options.
   slide-box: (width: 100%, height: 100%, clip: true),
   // Content slide alignment.
-  slide-grid: (
-    rows: (auto, 1em, 3fr, auto, 5fr, 1em, auto),
-    columns: (auto, 2em, 1fr, auto, 1fr, 2em, auto),
-    gutter: 0pt,
-  ),
+  slide-grid: (rows: (auto, 1em, 3fr, auto, 5fr, 1em, auto), columns: (auto, 2em, 1fr, auto, 1fr, 2em, auto), gutter: 0pt),
   // Slide grid cell.
   slide-grid-cell: (x: 3, y: 3),
   // Color for external link anchors.
@@ -177,22 +177,17 @@
   // location text overrides for future sections.
   location-text-future: (:),
   // location shape for past subsections.
-  location-shape-past: box(height: 3.8pt, circle(
-    radius: 1.7pt,
-    fill: _frankenstein-palette.secondary-100,
-    stroke: 0.7pt + _frankenstein-palette.secondary-100,
-  )),
-  // location shape for current subsections.
-  location-shape-current: box(height: 3.8pt, circle(
-    radius: 1.7pt,
-    fill: _frankenstein-palette.primary-500,
-    stroke: 0.7pt + _frankenstein-palette.primary-500,
-  )),
-  // location shape for future subsections.
-  location-shape-future: box(
+  location-shape-past: box(
     height: 3.8pt,
-    circle(radius: 1.7pt, stroke: 0.7pt + _frankenstein-palette.secondary-100),
+    circle(radius: 1.7pt, fill: _frankenstein-palette.secondary-100, stroke: 0.7pt + _frankenstein-palette.secondary-100),
   ),
+  // location shape for current subsections.
+  location-shape-current: box(
+    height: 3.8pt,
+    circle(radius: 1.7pt, fill: _frankenstein-palette.primary-500, stroke: 0.7pt + _frankenstein-palette.primary-500),
+  ),
+  // location shape for future subsections.
+  location-shape-future: box(height: 3.8pt, circle(radius: 1.7pt, stroke: 0.7pt + _frankenstein-palette.secondary-100)),
   // Progress bar height.
   progress-bar-height: 5pt,
   // Progress bar background color.
@@ -234,35 +229,11 @@
   // Build the background.
   place(block(width: 100%, height: 100%, fill: fill))
   // The left triangle.
-  place(
-    left + top,
-    polygon(
-      fill: fill.lighten(20%).transparentize(50%),
-      (0%, 100%),
-      (25%, 80%),
-      (0%, 70%),
-    ),
-  )
+  place(left + top, polygon(fill: fill.lighten(20%).transparentize(50%), (0%, 100%), (25%, 80%), (0%, 70%)))
   // The bottom triangle.
-  place(
-    left + top,
-    polygon(
-      fill: fill.lighten(20%).transparentize(20%),
-      (0%, 100%),
-      (25%, 80%),
-      (75%, 100%),
-    ),
-  )
+  place(left + top, polygon(fill: fill.lighten(20%).transparentize(20%), (0%, 100%), (25%, 80%), (75%, 100%)))
   // The large one on the right.
-  place(
-    left + top,
-    polygon(
-      fill: fill.lighten(20%).transparentize(85%),
-      (0%, 100%),
-      (100%, 100%),
-      (100%, 20%),
-    ),
-  )
+  place(left + top, polygon(fill: fill.lighten(20%).transparentize(85%), (0%, 100%), (100%, 100%), (100%, 20%)))
 }
 
 // frankenstein title text content. Draws only from defaults, fully customizable.
@@ -393,29 +364,22 @@
       background
     }
 
-    align(
-      left + horizon,
-      block(
-        width: 100%,
-        inset: 15%,
-        _frankenstein-title-content(
-          title: title,
-          authors: authors,
-          abstract: abstract,
-          date: date,
-          date-format: options.date-format,
-          version: version,
-          keywords: keywords,
-          title-text: options.title-text,
-          heading-text: options.title-heading-text,
-          author-text: options.title-author-text,
-          affiliation-text: options.title-affiliation-text,
-          abstract-text: options.title-abstract-text,
-          version-text: options.title-version-text,
-          gutter: options.title-gutter,
-        ),
-      ),
-    )
+    align(left + horizon, block(width: 100%, inset: 15%, _frankenstein-title-content(
+      title: title,
+      authors: authors,
+      abstract: abstract,
+      date: date,
+      date-format: options.date-format,
+      version: version,
+      keywords: keywords,
+      title-text: options.title-text,
+      heading-text: options.title-heading-text,
+      author-text: options.title-author-text,
+      affiliation-text: options.title-affiliation-text,
+      abstract-text: options.title-abstract-text,
+      version-text: options.title-version-text,
+      gutter: options.title-gutter,
+    )))
 
     if foreground != none {
       foreground
@@ -427,59 +391,53 @@
 // CONTENT SLIDE HELPERS
 
 // frankenstein progress bar. Draws everything from options.
-#let frankenstein-progress-bar(
-  height: auto,
-  progress-color: auto,
-  background-color: auto,
-) = {
-  locate(loc => {
-    let options = frankenstein-options.at(loc)
-    let current = loc.page()
-    let total = counter(page).final().first()
+#let frankenstein-progress-bar(height: auto, progress-color: auto, background-color: auto) = {
+  locate(
+    loc => {
+      let options = frankenstein-options.at(loc)
+      let current = loc.page()
+      let total = counter(page).final().first()
 
-    let bar-height = if height == auto {
-      options.progress-bar-height
-    } else {
-      height
-    }
+      let bar-height = if height == auto {
+        options.progress-bar-height
+      } else {
+        height
+      }
 
-    let bar-progress-color = if progress-color == auto {
-      options.progress-overlay-color
-    } else {
-      assert(
-        type(progress-color) == color,
-        message: "argument 'progress-color' needs to be a color, got type '" + type(progress-color) + "'",
+      let bar-progress-color = if progress-color == auto {
+        options.progress-overlay-color
+      } else {
+        assert(
+          type(progress-color) == color,
+          message: "argument 'progress-color' needs to be a color, got type '" + type(progress-color) + "'",
+        )
+        progress-color
+      }
+
+      let bar-background-color = if background-color == auto {
+        options.progress-bar-color
+      } else {
+        assert(
+          type(background-color) == color,
+          message: "argument 'background-color' needs to be a color, got type '" + type(background-color) + "'",
+        )
+        background-color
+      }
+
+      block(
+        fill: bar-background-color,
+        width: 100%,
+        below: 0pt,
+        above: 0pt,
+        height: bar-height,
+        place(
+          left + horizon,
+          clearance: 0pt,
+          utils.polylux-progress(frankenstein => block(fill: bar-progress-color, width: frankenstein * 100%, height: 100%)),
+        ),
       )
-      progress-color
-    }
-
-    let bar-background-color = if background-color == auto {
-      options.progress-bar-color
-    } else {
-      assert(
-        type(background-color) == color,
-        message: "argument 'background-color' needs to be a color, got type '" + type(background-color) + "'",
-      )
-      background-color
-    }
-
-    block(
-      fill: bar-background-color,
-      width: 100%,
-      below: 0pt,
-      above: 0pt,
-      height: bar-height,
-      place(
-        left + horizon,
-        clearance: 0pt,
-        utils.polylux-progress(frankenstein => block(
-          fill: bar-progress-color,
-          width: frankenstein * 100%,
-          height: 100%,
-        )),
-      ),
-    )
-  })
+    },
+  )
 }
 
 // frankenstein style section location info bar. Draws everything from options.
@@ -504,11 +462,11 @@
 
     let sec_display = {
       let curr_sec = secs
-        .zip(sec_ends)
-        .map(((sec, end)) => {
-            (sec: sec, end: end)
-          })
-        .find(e => {
+      .zip(sec_ends)
+      .map(((sec, end)) => {
+        (sec: sec, end: end)
+      })
+      .find(e => {
         return page == e.sec.loc.page() or (e.end != none and page < e.end)
       })
       if curr_sec != none {
@@ -517,85 +475,53 @@
     }
 
     // Combine into a block that fills the header.
-    block(
-      fill: options.location-bar-color,
-      width: 100%,
-      frankenstein-progress-bar() + if show-location {
-        align(
-          horizon,
-          {
-            pad(
-              x: 2em,
-              y: 1.4em,
-              grid(
-              columns: (1fr,1fr),
-              gutter: .4em,
-              none, // TODO Logo
-              align(right,text(..options.location-text-current)[#sec_display]) // TODO not correct
-            ),
-            )
-          },
-        )
-      },
-    )
+    block(fill: options.location-bar-color, width: 100%, frankenstein-progress-bar() + if show-location {
+      align(horizon, {
+        pad(x: 2em, y: 1.4em, grid(
+          columns: (1fr, 1fr),
+          gutter: .4em,
+          none, // TODO Logo
+          align(right, text(..options.location-text-current)[#sec_display]), // TODO not correct
+        ))
+      })
+    })
   })
 }
 
 // frankenstein style short information bar. Draws everything from options.
 #let frankenstein-short-info() = {
-  locate(loc => {
-    // Get the variables at this stage or final.
-    let options = frankenstein-options.at(loc)
-    let page = loc.page()
+  locate(
+    loc => {
+      // Get the variables at this stage or final.
+      let options = frankenstein-options.at(loc)
+      let page = loc.page()
 
-    set text(..options.location-text)
+      set text(..options.location-text)
 
-    // Precalculate when sections and subsections end.
-    let content = {
-      ()
-    }
-    content.push(
-      text(options.date.display("[day].[month].[year]")),
-    )
+      // Precalculate when sections and subsections end.
+      let content = {
+        ()
+      }
+      content.push(text(options.date.display("[day].[month].[year]")))
 
-    if options.show-authors-in-short-info and options.authors != none and options.authors.len() > 0 {
-      content.push(
-        align(
+      if options.show-authors-in-short-info and options.authors != none and options.authors.len() > 0 {
+        content.push(align(
           center,
           text(options.short-title + " — " + options.authors.at(0).name + " — " + options.authors.at(0).affiliation),
-        ),
-      )
+        ))
+      } else {
+        content.push(align(center, text(options.short-title)))
+      }
 
-    } else {
-      content.push(
-        align(center, text(options.short-title)),
-      )
-    }
+      content.push(align(right, text(str(page))))
 
-    content.push(
-      align(right, text(str(page))),
-    )
-
-    // Combine into a block that fills the header.
-    block(
-      fill: options.location-bar-color,
-      width: 100%,
-      align(
-        horizon,
-        {
-          pad(
-            x: 2em,
-            y: 1.4em,
-            grid(
-              columns: (1fr, 15fr, 1fr),
-              gutter: .4em,
-              ..content,
-            ),
-          )
-        },
-      ),
-    )
-  })
+      // Combine into a block that fills the header.
+      // TODO place location through parameter, block fill color through options
+      place(bottom, block(fill: _frankenstein-palette.transparent, width: 100%, align(horizon, {
+        pad(x: 2em, y: 1.4em, grid(columns: (1fr, 15fr, 1fr), gutter: .4em, ..content))
+      })))
+    },
+  )
 }
 
 // frankenstein header or footer bar helper.
@@ -614,37 +540,17 @@
 }
 
 // frankenstein header helper.
-#let _frankenstein-header() = (
-  context {
-    frankenstein-bar(
-      frankenstein-options.get().at(
-        "header",
-        default: none,
-      ),
-    )
-  }
-)
+#let _frankenstein-header() = (context{
+  frankenstein-bar(frankenstein-options.get().at("header", default: none))
+})
 
 // frankenstein footer helper.
-#let _frankenstein-footer() = (
-  context {
-    frankenstein-bar(
-      frankenstein-options.get().at(
-        "footer",
-        default: none,
-      ),
-    )
-  }
-)
+#let _frankenstein-footer() = (context{
+  frankenstein-bar(frankenstein-options.get().at("footer", default: none))
+})
 
 // frankenstein content box helper. Wraps it in a box+grid combination.
-#let _frankenstein-content(
-  box-args: auto,
-  grid-args: auto,
-  grid-cell: auto,
-  grid-children: auto,
-  body,
-) = {
+#let _frankenstein-content(box-args: auto, grid-args: auto, grid-cell: auto, grid-children: auto, body) = {
   context {
     let options = frankenstein-options.get()
 
@@ -710,41 +616,26 @@
     panic("argument 'title' need to be a string, got type '" + type(title) + "' with value '" + str(title) + "'")
   }
   if type(do-outline-register) != bool {
-    panic("argument 'do-outline-register' need to be a boolean, got type '" + type(do-outline-register) + "' with value '" + str(do-outline-register) + "'")
+    panic(
+      "argument 'do-outline-register' need to be a boolean, got type '" + type(do-outline-register) + "' with value '" + str(do-outline-register) + "'",
+    )
   }
   context {
     let title-display
     if title != none {
       let should-get-outlined = depth == 1 and do-outline-register
-      title-display = box(
-        pad(
-          top: 1em,
-          bottom: 3em,
-          heading(outlined: should-get-outlined)[#title] + if frankenstein-options.get().draw-headings-separation {
-            place(
-              bottom,
-              dy: 18pt,
-              dx: 10pt,
-              line(stroke: 1pt + _frankenstein-palette.primary-900, length: 77pt),
-            )
-          },
-        ),
-      )
+      title-display = box(pad(
+        top: 1em,
+        bottom: 3em,
+        heading(outlined: should-get-outlined)[#title] + if frankenstein-options.get().draw-headings-separation {
+          place(bottom, dy: 18pt, dx: 10pt, line(stroke: 1pt + _frankenstein-palette.primary-900, length: 77pt))
+        },
+      ))
     }
     let inner = {
-      stack(
-        dir: ttb,
-        title-display,
-        body,
-      )
+      stack(dir: ttb, title-display, body)
     }
-    let content = _frankenstein-content(
-      box-args: box-args,
-      grid-args: grid-args,
-      grid-cell: grid-cell,
-      grid-children: grid-children,
-      inner,
-    )
+    let content = _frankenstein-content(box-args: box-args, grid-args: grid-args, grid-cell: grid-cell, grid-children: grid-children, inner)
     let header = if header == auto {
       _frankenstein-header()
     } else {
@@ -755,30 +646,20 @@
     } else {
       footer
     }
-    logic.polylux-slide(
-      max-repetitions: 3,
-      grid(
-        columns: 1,
-        gutter: 0pt,
-        rows: (auto, 1fr, auto),
-        ..(header, content, footer),
-      ),
-    )
+    logic.polylux-slide(max-repetitions: 3, grid(columns: 1, gutter: 0pt, rows: (auto, 1fr, auto), ..(header, content, footer)))
   }
 }
 
-#let new-section-slide(
-  section-title,
-  section-subtitle: none,
-  do-outline-register: true,
-  header: none,
-  footer: auto,
-) = {
+#let new-section-slide(section-title, section-subtitle: none, do-outline-register: true, header: none, footer: auto) = {
   if type(section-title) != str {
-    panic("argument 'section-title' need to be a string, got type '" + type(section-title) + "' with value '" + str(section-title) + "'")
+    panic(
+      "argument 'section-title' need to be a string, got type '" + type(section-title) + "' with value '" + str(section-title) + "'",
+    )
   }
   if section-subtitle != none and type(section-subtitle) != str {
-    panic("argument 'section-subtitle' need to be a string, got type '" + type(section-subtitle) + "' with value '" + str(section-subtitle) + "'")
+    panic(
+      "argument 'section-subtitle' need to be a string, got type '" + type(section-subtitle) + "' with value '" + str(section-subtitle) + "'",
+    )
   }
   let content = {
     set align(horizon)
@@ -788,31 +669,19 @@
     block(height: 2pt, width: 100%, spacing: 0pt, frankenstein-progress-bar(height: 2pt))
     section-subtitle
   }
-  slide(
-    none,
-    header: header,
-    footer: footer,
-    grid-args: none,
-    content,
-  )
+  slide(none, header: header, footer: footer, grid-args: none, content)
 }
 
 // frankenstein style centered slide.
-#let centered-slide(
-  title,
-  do-outline-register: false,
-  depth: 1,
-  header: auto,
-  footer: auto,
-  box-args: auto,
-  body,
-) = {
+#let centered-slide(title, do-outline-register: false, depth: 1, header: auto, footer: auto, box-args: auto, body) = {
   context {
     if title != none and type(title) != str {
       panic("argument 'title' need to be a string, got type '" + type(title) + "' with value '" + str(title) + "'")
     }
     if type(do-outline-register) != bool {
-      panic("argument 'do-outline-register' need to be a boolean, got type '" + type(do-outline-register) + "' with value '" + str(do-outline-register) + "'")
+      panic(
+        "argument 'do-outline-register' need to be a boolean, got type '" + type(do-outline-register) + "' with value '" + str(do-outline-register) + "'",
+      )
     }
     slide(
       title,
@@ -821,11 +690,7 @@
       header: header,
       footer: footer,
       box-args: box-args,
-      grid-args: (
-        rows: (auto, 1em, 1fr, auto, 1fr, 1em, auto),
-        columns: (auto, 2em, 1fr, auto, 1fr, 2em, auto),
-        gutter: 0pt,
-      ),
+      grid-args: (rows: (auto, 1em, 1fr, auto, 1fr, 1em, auto), columns: (auto, 2em, 1fr, auto, 1fr, 2em, auto), gutter: 0pt),
       grid-cell: (..frankenstein-options.get().slide-grid-cell, align: horizon + center),
       body,
     )
@@ -834,7 +699,6 @@
 
 // frankenstein style bare bones slide.
 #let bare-slide = logic.polylux-slide
-
 
 #let title-slide2(title: [], subtitle: none, author: [], date: none) = {
   let title-block(fg, bg, height, body) = block(
@@ -850,44 +714,32 @@
   )
   let content = {
     title-block(_frankenstein-palette.primary-900, _frankenstein-palette.secondary-50, 60%, text(1.7em, title))
-    title-block(
-      _frankenstein-palette.secondary-50,
-      _frankenstein-palette.primary-900,
-      40%,
-      {
-        if subtitle != none {
-          text(size: 1.2em, subtitle)
-          parbreak()
-        }
+    title-block(_frankenstein-palette.secondary-50, _frankenstein-palette.primary-900, 40%, {
+      if subtitle != none {
+        text(size: 1.2em, subtitle)
+        parbreak()
+      }
 
-        text(
-          size: .9em,
-          {
-            author
-            if date != none {
-              h(1em)
-              sym.dot.c
-              h(1em)
-              date
-            }
-          },
-        )
-      },
-    )
-    place(
-      center + horizon,
-      dy: 10%,
-      rect(width: 6em, height: .5em, radius: .25em, fill: frankenstein-accent),
-    )
+      text(size: .9em, {
+        author
+        if date != none {
+          h(1em)
+          sym.dot.c
+          h(1em)
+          date
+        }
+      })
+    })
+    place(center + horizon, dy: 10%, rect(width: 6em, height: .5em, radius: .25em, fill: frankenstein-accent))
   }
   logic.polylux-slide(content)
 }
 
-#let _frankenstein-content-box(fg, bg, width, alignment, body) = box(
+#let _frankenstein-content-box(fg, bg, width, alignment, body, inset: (x: 1em)) = box(
   width: width,
   height: 100%,
   outset: 0em,
-  inset: (x: 3em),
+  inset: inset,
   baseline: 0em,
   stroke: none,
   fill: bg,
@@ -896,77 +748,37 @@
 
 #let west-slide(title: none, body) = {
   let content = context {
-
-    _frankenstein-content-box(
-      _frankenstein-palette.contrast,
-      frankenstein-options.get().location-bar-color,
-      40%,
-      right,
-      if title != none {
-        heading(outlined: false, title)
-      } else {
-        []
-      },
-    )
-    _frankenstein-content-box(_frankenstein-palette.primary-900, _frankenstein-palette.transparent, 60%, left, body)
+    _frankenstein-content-box(_frankenstein-palette.secondary-900, frankenstein-options.get().location-bar-color, 30%, center, if title != none {
+      heading(outlined: false, title)
+    } else {
+      []
+    })
+    _frankenstein-content-box(_frankenstein-palette.secondary-900, _frankenstein-palette.transparent, 70%, left, inset: (left: 7em, right: 4em), body)
   }
-  logic.polylux-slide(
-    grid(
-      rows: (1fr, auto),
-      columns: 1,
-      content,
-      frankenstein-bar("short-info"),
-    ),
-  )
+  logic.polylux-slide(grid(rows: (1fr, auto), columns: 1, content, frankenstein-bar("short-info")))
 }
 
 #let east-slide(title: none, body) = {
   let content = {
-    _frankenstein-content-box(_frankenstein-palette.primary-900, _frankenstein-palette.secondary-50, 70%, right, body)
-    _frankenstein-content-box(
-      _frankenstein-palette.secondary-50,
-      _frankenstein-palette.primary-900,
-      30%,
-      left,
-      if title != none {
-        heading(level: 2, title)
-      } else {
-        []
-      },
-    )
+    _frankenstein-content-box(_frankenstein-palette.secondary-900, _frankenstein-palette.transparent, 70%, right, inset: (right: 7em, left: 4em), body)
+    _frankenstein-content-box(_frankenstein-palette.secondary-900, _frankenstein-palette.secondary-50, 30%, center, if title != none {
+      heading(level: 2, title)
+    } else {
+      []
+    })
   }
   logic.polylux-slide(content)
 }
 
 #let split-slide(body-left, body-right) = {
   let content = {
-    _frankenstein-content-box(
-      _frankenstein-palette.primary-900,
-      _frankenstein-palette.secondary-50,
-      50%,
-      right,
-      body-left,
-    )
-    _frankenstein-content-box(
-      _frankenstein-palette.secondary-50,
-      _frankenstein-palette.primary-900,
-      50%,
-      left,
-      body-right,
-    )
+    _frankenstein-content-box(_frankenstein-palette.primary-900, _frankenstein-palette.secondary-50, 50%, right, body-left)
+    _frankenstein-content-box(_frankenstein-palette.secondary-50, _frankenstein-palette.primary-900, 50%, left, body-right)
   }
   logic.polylux-slide(content)
 }
 
-
-#let slide2(
-  title: none,
-  header: none,
-  footer: none,
-  new-section: none,
-  body,
-) = {
-
+#let slide2(title: none, header: none, footer: none, new-section: none, body) = {
   let body = pad(x: 2em, y: .5em, body)
 
   let progress-barline = locate(loc => {
@@ -975,11 +787,7 @@
       let colors = frankenstein-colors.at(loc)
 
       utils.polylux-progress(frankenstein => {
-        grid(
-          rows: 2pt,
-          columns: (frankenstein * 100%, 1fr),
-          cell(fill: colors.a), cell(fill: colors.b),
-        )
+        grid(rows: 2pt, columns: (frankenstein * 100%, 1fr), cell(fill: colors.a), cell(fill: colors.b))
       })
     } else {
       []
@@ -995,15 +803,11 @@
       }
       locate(loc => {
         let colors = frankenstein-colors.at(loc)
-        block(
-          fill: colors.c,
-          inset: (x: .5em),
-          grid(
-            columns: (60%, 40%),
-            align(top + left, heading(level: 2, text(fill: colors.a, title))),
-            align(top + right, text(fill: colors.a.lighten(65%), utils.current-section)),
-          ),
-        )
+        block(fill: colors.c, inset: (x: .5em), grid(
+          columns: (60%, 40%),
+          align(top + left, heading(level: 2, text(fill: colors.a, title))),
+          align(top + right, text(fill: colors.a.lighten(65%), utils.current-section)),
+        ))
       })
     } else {
       []
@@ -1046,7 +850,6 @@
     }
   }
 
-
   set page(
     margin: (top: 2em, bottom: 1em, x: 0em),
     header: header,
@@ -1058,20 +861,10 @@
   logic.polylux-slide(body)
 }
 
-#let frankenstein-outline = utils.polylux-outline(enum-args: (
-  tight: false,
-  body-indent: .9em,
-  spacing: 1.6em,
-  numbering: "I.",
-))
+#let frankenstein-outline = utils.polylux-outline(enum-args: (tight: false, body-indent: .9em, spacing: 1.6em, numbering: "I."))
 
 // frankenstein style slide.
-#let frankenstein-outline-slide(
-  title: none,
-  depth: 1,
-  header: none,
-  footer: auto,
-) = {
+#let frankenstein-outline-slide(title: none, depth: 1, header: none, footer: auto) = {
   context {
     let header = if header == auto {
       _frankenstein-header()
@@ -1095,9 +888,8 @@
     //   grid-cell: (..frankenstein-options.get().slide-grid-cell, align: horizon + center),
     //   frankenstein-outline,
     // )
-    
-    west-slide(title: "Gliederung")[#frankenstein-outline]
 
+    west-slide(title: "Gliederung")[#frankenstein-outline]
   }
 }
 
@@ -1146,19 +938,9 @@
     }
   }
   // Set document properties.
-  set document(
-    title: title,
-    author: authors.first().name,
-    date: date,
-    keywords: keywords,
-  )
+  set document(title: title, author: authors.first().name, date: date, keywords: keywords)
 
-  set page(
-    paper: "presentation-" + aspect-ratio,
-    margin: 0em,
-    header: none,
-    footer: none,
-  )
+  set page(paper: "presentation-" + aspect-ratio, margin: 0em, header: none, footer: none)
 
   // Update all options.
   let options = options + (
@@ -1178,105 +960,83 @@
   show par: set block(spacing: 1.35em)
 
   // Any text
-  show: it => (
-    context {
-      set text(lang: frankenstein-options.get().lang, ..frankenstein-options.get().text)
-      it
-    }
-  )
+  show: it => (context{
+    set text(lang: frankenstein-options.get().lang, ..frankenstein-options.get().text)
+    it
+  })
 
   // Heading setup.
-  show heading: it => (
-    context {
-      let options = frankenstein-options.get()
-      if options.register-headings and logic.subslide.get().first() == 1 and it.outlined {
-        // Register sections and subsections.
-        if it.depth == 1 {
-          utils.register-section(it.body)
-        }
-      }
-      if options.style-headings {
-        let depth = it.depth - 1
-
-        let alignments = _as-array(options.heading-alignments)
-        let value = if depth < alignments.len() {
-          alignments.at(depth)
-        } else if alignments.len() > 0 {
-          alignments.last()
-        } else {
-          none
-        }
-        set align(value)
-
-        let texts = _as-array(options.heading-texts)
-        let style = if depth < texts.len() {
-          texts.at(depth)
-        } else if texts.len() > 0 {
-          texts.last()
-        } else {
-          (:)
-        }
-        // Do not hyphenate headings.
-        text(..options.heading-text, ..style)[#it]
-      } else {
-        it
+  show heading: it => (context{
+    let options = frankenstein-options.get()
+    if options.register-headings and logic.subslide.get().first() == 1 and it.outlined {
+      // Register sections and subsections.
+      if it.depth == 1 {
+        utils.register-section(it.body)
       }
     }
-  )
+    if options.style-headings {
+      let depth = it.depth - 1
+
+      let alignments = _as-array(options.heading-alignments)
+      let value = if depth < alignments.len() {
+        alignments.at(depth)
+      } else if alignments.len() > 0 {
+        alignments.last()
+      } else {
+        none
+      }
+      set align(value)
+
+      let texts = _as-array(options.heading-texts)
+      let style = if depth < texts.len() {
+        texts.at(depth)
+      } else if texts.len() > 0 {
+        texts.last()
+      } else {
+        (:)
+      }
+      // Do not hyphenate headings.
+      text(..options.heading-text, ..style)[#it]
+    } else {
+      it
+    }
+  })
 
   // Style links if set.
-  show link: it => (
-    context {
-      let options = frankenstein-options.get()
-      if options.style-links {
-        // Don't style for internal links.
-        if type(it.dest) == label or type(it.dest) == location {
-          return it
-        }
-        let color = options.at("link-color", default: _frankenstein-palette.primary-500)
-        frankenstein-link-anchor(it)
-      } else {
-        it
+  show link: it => (context{
+    let options = frankenstein-options.get()
+    if options.style-links {
+      // Don't style for internal links.
+      if type(it.dest) == label or type(it.dest) == location {
+        return it
       }
+      let color = options.at("link-color", default: _frankenstein-palette.primary-500)
+      frankenstein-link-anchor(it)
+    } else {
+      it
     }
-  )
+  })
 
   // Set raw font to Fira Code if available.
-  show raw.where(block: true): it => (
-    context {
-      let options = frankenstein-options.get()
-      if options.style-raw {
-        set text(font: "Fira Code")
-        block(
-          inset: (x: .3em),
-          fill: options.fill-color.lighten(25%),
-          outset: (y: .5em),
-          radius: .15em,
-          it,
-        )
-      } else {
-        it
-      }
+  show raw.where(block: true): it => (context{
+    let options = frankenstein-options.get()
+    if options.style-raw {
+      set text(font: "Fira Code")
+      block(inset: (x: .3em), fill: options.fill-color.lighten(25%), outset: (y: .5em), radius: .15em, it)
+    } else {
+      it
     }
-  )
+  })
 
-  show raw.where(block: false): it => (
-    context {
-      let options = frankenstein-options.get()
-      if options.style-raw {
-        set text(font: "Fira Code")
-        box(
-          fill: options.fill-color,
-          inset: (x: .3em),
-          outset: (y: .3em),
-          radius: .15em,
-          it,
-        )
-      } else {
-        it
-      }
+  show raw.where(block: false): it => (context{
+    let options = frankenstein-options.get()
+    if options.style-raw {
+      set text(font: "Fira Code")
+      box(fill: options.fill-color, inset: (x: .3em), outset: (y: .3em), radius: .15em, it)
+    } else {
+      it
     }
-  )
+  })
 
   // Title slide if set.
   if cover {
