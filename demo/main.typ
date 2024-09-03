@@ -15,6 +15,8 @@
   options: (show-authors-in-short-info: true),
 )
 
+#frankenstein-option-register((short-title: [#lorem(10)]))
+
 #centered-slide(none, header: frankenstein-bar("progress"))[#heading(outlined: false)[Welcome!]]
 
 #frankenstein-outline-slide()
