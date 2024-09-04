@@ -7,11 +7,13 @@
   aspect-ratio: "16-9",
   title: [Frankenstein theme],
   abstract: [A theme about navigation and customization],
-  authors: (frankenstein-author("Theme Author 1", "123456", "foo@bar.quux"),),
+  authors: (frankenstein-author("Theme Author 1", "123456/title of author", "foo@bar.quux"),),
   version: "1.0.0",
   date: datetime(year: 2024, month: 8, day: 28),
   keywords: ("progress", "customization", "short informations"),
   lang: "de",
+  dark-logo-filename: "logo-black.svg",
+  light-logo-filename: "logo-white.svg",
   options: (show-authors-in-short-info: true),
 )
 
@@ -43,7 +45,7 @@
   Which automatically generates a cover page if `cover` is set to `true`.
 ]
 
-#new-section-slide("Navigation")
+#new-section-slide("Navigation", section-subtitle: "kekw")[#enum(numbering: "I.")[mach][mach][mach]]
 
 #slide("Navigation")[
   Have you noticed the navigation bar at the top?
@@ -96,7 +98,6 @@
 
 #slide("Customization")[
 
-  #set text(size: 15pt)
   We all know that layouts work all of the time 99% of the time.
 
   The `frankenstein-update` function updates option dictionaries *recursively* and thus

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="134.30569mm"
+   height="37.734879mm"
+   viewBox="0 0 134.30569 37.734879"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter1710"
+       x="-0.0014818852"
+       y="-0.0053146258"
+       width="1.0029638"
+       height="1.0106293">
+      <feColorMatrix
+         type="hueRotate"
+         values="180"
+         result="color1"
+         id="feColorMatrix1706" />
+      <feColorMatrix
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 -0.21 -0.72 -0.07 2 0 "
+         result="color2"
+         id="feColorMatrix1708" />
+    </filter>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-10.068415,-8.3552301)">
+    <text
+       xml:space="preserve"
+       style="font-size:50.8px;fill:#000000;stroke:#000000;stroke-width:0.396875;filter:url(#filter1710)"
+       x="5.3392529"
+       y="45.383667"
+       id="text1516"><tspan
+         id="tspan1514"
+         style="font-size:50.8px;stroke-width:0.396875"
+         x="5.3392529"
+         y="45.383667">LOGO</tspan></text>
+  </g>
+</svg>

@@ -94,8 +94,8 @@
     frankenstein-author("Foo Bar", "Quux Co.", "foo.bar@quux.co"),
   ),
   graphics-path: "../images/",
-  light-logo-filename: "h_da-eut-weiss.svg",
-  dark-logo-filename: "h_da-eut-schwarz.svg",
+  light-logo-filename: none,
+  dark-logo-filename: none,
   // Date that will be displayed on cover page.
   // The value needs to be of the 'datetime' type.
   // More info: https://typst.app/docs/reference/foundations/datetime/
@@ -107,7 +107,7 @@
   // The version of your work.
   version: "Draft",
   // Default font settings.
-  text: (font: ("Inter", "Lato", "Noto Sans", "Open Sans"), size: 14pt),
+  text: (font: ("Inter", "Lato", "Noto Sans", "Open Sans"), size: 13pt),
   // Default language settings.
   lang: "en",
   // Whether to register headings as sections and subsections.
@@ -367,7 +367,14 @@
       background
     }
     if type(options.graphics-path) == str and type(options.light-logo-filename) == str {
-      place(right + top, pad(right: 2em, top: 2em, image(options.graphics-path + options.light-logo-filename, fit: "contain", alt: "h_da Logo", height: 4em)))
+      place(
+        right + top,
+        pad(
+          right: 2em,
+          top: 2em,
+          image(options.graphics-path + options.light-logo-filename, fit: "contain", alt: "logo", height: 4em),
+        ),
+      )
     } else {
       none
     }
@@ -505,7 +512,7 @@
           columns: (1fr, 1fr),
           gutter: .4em,
           if type(options.graphics-path) == str and type(options.dark-logo-filename) == str {
-            align(left, image(options.graphics-path + options.dark-logo-filename, fit: "contain", alt: "h_da Logo", height: 4em))
+            align(left, image(options.graphics-path + options.dark-logo-filename, fit: "contain", alt: "logo", height: 4em))
           } else {
             none
           },
@@ -532,7 +539,7 @@
     let content = {
       ()
     }
-    content.push(pad(left: 3em, text(options.date.display("[day].[month].[year]"))))
+    content.push(pad(left: 4em, text(options.date.display("[day].[month].[year]"))))
 
     if options.show-authors-in-short-info and options.authors != none and options.authors.len() > 0 {
       content.push(
@@ -548,7 +555,7 @@
       content.push(align(center, text(options.short-title)))
     }
 
-    content.push(align(right, pad(right: 1.7em, text(str(page)))))
+    content.push(align(right, pad(right: 3em, text(str(page)))))
 
     // Combine into a block that fills the header.
     // TODO place location through parameter, block fill color through options
@@ -560,7 +567,7 @@
         align(
           horizon,
           {
-            pad(y: 1.6em, grid(columns: (leftsize, centersize, rightsize), gutter: .4em, ..content))
+            pad(y: 2em, grid(columns: (leftsize, centersize, rightsize), gutter: .4em, ..content))
           },
         ),
       ),
@@ -707,7 +714,14 @@
   }
 }
 
-#let new-section-slide(section-title, section-subtitle: none, do-outline-register: true, header: none, footer: auto) = {
+#let new-section-slide(
+  section-title,
+  section-subtitle: none,
+  do-outline-register: true,
+  header: none,
+  footer: auto,
+  body,
+) = {
   if type(section-title) != str {
     panic("argument 'section-title' need to be a string, got type '" + type(section-title) + "' with value '" + str(section-title) + "'")
   }
@@ -720,7 +734,13 @@
     heading(outlined: do-outline-register)[#section-title]
     v(1em)
     block(height: 2pt, width: 100%, spacing: 0pt, frankenstein-progress-bar(height: 2pt))
-    section-subtitle
+    text(fill: _frankenstein-palette.secondary-200, section-subtitle)
+    linebreak()
+    v(1em)
+    {
+      set text(fill: _frankenstein-palette.primary-200)
+      box(width: 100%, align(center, body))
+    }
   }
   slide(none, header: header, footer: footer, grid-args: none, content)
 }
@@ -1035,6 +1055,10 @@
     frankenstein-author("Jane Doe", "Foo Ltd.", "jane.doe@foo.ltd"),
     frankenstein-author("Foo Bar", "Quux Co.", "foo.bar@quux.co"),
   ),
+  // Filename to dark logo
+  dark-logo-filename: none,
+  // Filename to light logo
+  light-logo-filename: none,
   // Date that will be displayed on cover page.
   // The value needs to be of the 'datetime' type.
   // More info: https://typst.app/docs/reference/foundations/datetime/
@@ -1073,6 +1097,8 @@
     keywords: keywords,
     version: version,
     lang: lang,
+    dark-logo-filename: dark-logo-filename,
+    light-logo-filename: light-logo-filename,
   )
   frankenstein-option-update(options)
 
