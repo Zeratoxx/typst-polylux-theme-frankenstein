@@ -94,7 +94,10 @@
   ```
 ]
 
-#centered-slide(none)[#heading(depth: 2)[Hello there!]]
+#centered-slide(none)[
+  // #heading(depth: 2)[Hello there!]
+  #text()[Hello there!]
+]
 
 #slide("Customization")[
 
@@ -124,8 +127,10 @@
   ```
 ]
 
-// #frankenstein-option-update((title-text: (fill: frankenstein-palette.warning)))
-// #frankenstein-option-register((title-hero-color: color.hsl(green)))
+#new-section-slide("Slide Layout")[]
+
+#frankenstein-option-update((title-text: (fill: _frankenstein-palette.warning)))
+#frankenstein-option-register((title-hero-color: color.hsl(green)))
 // #let fg = place(horizon + left, block(inset: 10%, width: 100%)[foreground.])
 // #let bg = place(
 //   horizon + left,

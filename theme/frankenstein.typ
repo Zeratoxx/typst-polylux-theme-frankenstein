@@ -490,7 +490,9 @@
             (sec: sec, end: end)
           })
         .find(e => {
-        return page == e.sec.loc.page() or (e.end != none and page < e.end)
+        // Returns always true but only at specific position caused by the order of the OR arguments.
+        // Priority decreases from left to right.
+        return page == e.sec.loc.page() or (e.end != none and page < e.end) or e.end == none
       })
       if curr_sec != none {
         curr_sec.sec.body
@@ -509,14 +511,17 @@
               x: 4em,
               y: 1.4em,
               grid(
-          columns: (1fr, 1fr),
+          columns: (1fr, 1fr, 1fr),
           gutter: .4em,
           if type(options.graphics-path) == str and type(options.dark-logo-filename) == str {
             align(left, image(options.graphics-path + options.dark-logo-filename, fit: "contain", alt: "logo", height: 4em))
           } else {
             none
           },
-          align(right, text(..options.location-text-current)[#sec_display]), // TODO not correct
+          // debug
+          // text()[#secs] + text()[#sec_ends],
+          none,
+          align(right, text(..options.location-text-current)[#sec_display]),
         ),
             )
           },
@@ -527,7 +532,14 @@
 }
 
 // frankenstein style short information bar. Draws everything from options.
-#let frankenstein-short-info(leftsize: 2fr, centersize: 6fr, rightsize: 2fr) = {
+#let frankenstein-short-info(
+  leftsize: 2fr,
+  centersize: 6fr,
+  rightsize: 2fr,
+  pad-left: 4em,
+  pad-right: 3em,
+  pad-y: 2em,
+) = {
   locate(loc => {
     // Get the variables at this stage or final.
     let options = frankenstein-options.at(loc)
@@ -539,7 +551,7 @@
     let content = {
       ()
     }
-    content.push(pad(left: 4em, text(options.date.display("[day].[month].[year]"))))
+    content.push(pad(left: pad-left, text(options.date.display("[day].[month].[year]"))))
 
     if options.show-authors-in-short-info and options.authors != none and options.authors.len() > 0 {
       content.push(
@@ -555,7 +567,7 @@
       content.push(align(center, text(options.short-title)))
     }
 
-    content.push(align(right, pad(right: 3em, text(str(page)))))
+    content.push(align(right, pad(right: pad-right, text(str(page)))))
 
     // Combine into a block that fills the header.
     // TODO place location through parameter, block fill color through options
@@ -567,7 +579,7 @@
         align(
           horizon,
           {
-            pad(y: 2em, grid(columns: (leftsize, centersize, rightsize), gutter: .4em, ..content))
+            pad(y: pad-y, grid(columns: (leftsize, centersize, rightsize), gutter: .4em, ..content))
           },
         ),
       ),
