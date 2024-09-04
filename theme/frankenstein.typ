@@ -136,7 +136,7 @@
     fill: _frankenstein-palette.contrast,
   ),
   // Title text heading overrides.
-  title-heading-text: (size: 3em, weight: "bold"),
+  title-heading-text: (size: 2.5em, weight: "bold", hyphenate: false),
   // Title author text heading overrides.
   title-author-text: (:),
   // Title affiliation text overrides.
