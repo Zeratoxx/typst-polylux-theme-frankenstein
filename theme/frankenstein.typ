@@ -1067,6 +1067,7 @@
     frankenstein-author("Jane Doe", "Foo Ltd.", "jane.doe@foo.ltd"),
     frankenstein-author("Foo Bar", "Quux Co.", "foo.bar@quux.co"),
   ),
+  graphics-path: "../images/",
   // Filename to dark logo
   dark-logo-filename: none,
   // Filename to light logo
@@ -1109,6 +1110,7 @@
     keywords: keywords,
     version: version,
     lang: lang,
+    graphics-path: graphics-path,
     dark-logo-filename: dark-logo-filename,
     light-logo-filename: light-logo-filename,
   )
