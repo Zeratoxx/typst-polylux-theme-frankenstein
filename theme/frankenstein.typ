@@ -31,6 +31,22 @@
   dict
 }
 
+#let frankenstein-list(content) = (
+  context {
+    let text-size = measure([#content])
+
+    move(
+      dx: 10pt,
+      block(
+      /* fill: black.transparentize(50%), */
+      width: text-size.width + 50pt)[
+      #set enum(numbering: "a.1.")
+      #content
+    ],
+    )
+  }
+)
+
 // frankenstein color palette for easy styling.
 #let _frankenstein-palette = (
   primary-900: color.hsl(rgb("#1f4ac3")),
@@ -107,7 +123,7 @@
   // The version of your work.
   version: "Draft",
   // Default font settings.
-  text: (font: ("Inter", "Lato", "Noto Sans", "Open Sans"), size: 13pt),
+  text: (font: ("Inter", "Lato", "Noto Sans", "Open Sans"), size: 16pt),
   // Default language settings.
   lang: "en",
   // Whether to register headings as sections and subsections.
@@ -148,19 +164,23 @@
   // Title vertical spacing.
   title-gutter: 9%,
   // Common heading text style.
-  heading-text: (font: ("Inter", "Cantarell", "Noto Sans", "Open Sans"), hyphenate: false, weight: "medium"),
+  heading-text: (font: ("Inter", "Cantarell", "Noto Sans", "Open Sans"), hyphenate: false, weight: "medium",tracking: .04em),
   // Heading text style overrides in order of heading depth.
   heading-texts: (
-    (/* depth 1 */fill: _frankenstein-palette.secondary-800, size: 30pt),
-    (/* depth 2 */size: 20pt, weight: "bold"),
-    (/* depth 3 */size: 15pt, weight: "bold"), /* depth ... */
+    (/* depth 1 */fill: _frankenstein-palette.secondary-800, size: 1.2em,),
+    (/* depth 2 */size: 1.15em,),
+    (/* depth 3 */size: 1.1em, ), /* depth ... */
   ),
   // Heading alignments in order of heading depth.
   heading-alignments: (left,),
   // Slide content box options.
   slide-box: (width: 100%, height: 100%, clip: true),
   // Content slide alignment.
-  slide-grid: (rows: (auto, 1em, 3fr, auto, 5fr, 3.5em, auto), columns: (auto, 2em, 1fr, auto, 1fr, 2em, auto), gutter: 0pt),
+  slide-grid: (
+    rows: (auto, 1em, 3fr, auto, 5fr, 3.5em, auto),
+    columns: (auto, 3.5em, 1fr, auto, 1fr, 3.5em, auto),
+    gutter: 0pt
+  ),
   // Slide grid cell.
   slide-grid-cell: (x: 3, y: 3),
   // Color for external link anchors.
@@ -172,11 +192,11 @@
   // location background color.
   location-bar-color: _frankenstein-palette.secondary-50,
   // location text options for all text.
-  location-text: (fill: _frankenstein-palette.secondary-200, size: 8pt),
+  location-text: (fill: _frankenstein-palette.secondary-200, size: .5em),
   // location text overrides for past sections.
   location-text-past: (:),
   // location text overrides for the current section.
-  location-text-current: (weight: "bold"),
+  location-text-current: (weight: "medium", size: 1.25em),
   // location text overrides for future sections.
   location-text-future: (:),
   // location shape for past subsections.
@@ -326,18 +346,38 @@
   grid(columns: (auto), gutter: gutter, ..rows)
 }
 
-#let place-logo(logo-filename, graphics-path: _frankenstein-defaults.graphics-path) = {
-  if type(graphics-path) == str and type(logo-filename) == str {
-    place(
-      right + top,
-      pad(
-        right: 2em,
-        top: 2em,
-        image(graphics-path + logo-filename, fit: "contain", alt: "logo", height: 4em),
-      ),
-    )
+#let place-logo(logo-hint, graphics-path: auto) = (
+  context {
+    let options = frankenstein-options.get()
+    let actual-path = if graphics-path == auto {
+      options.graphics-path
+    } else {
+      graphics-path
+    }
+    if type(actual-path) == str {
+      let logo-filename = ""
+      if type(logo-hint) == str {
+        logo-filename = logo-hint
+      } else if type(logo-hint) == color {
+        if logo-hint == white {
+
+          logo-filename = options.light-logo-filename
+        } else {
+
+          logo-filename = options.dark-logo-filename
+        }
+      }
+      place(
+        right + top,
+        pad(
+          right: 2em,
+          top: 2em,
+          image(actual-path + logo-filename, fit: "contain", alt: "logo", height: 2.5em),
+        ),
+      )
+    }
   }
-}
+)
 
 // frankenstein style title slide.
 // Draws options from context that are not in the parameter list.
@@ -379,6 +419,9 @@
     if background != none {
       background
     }
+
+    place-logo(white)
+
     align(
       left + horizon,
       block(
@@ -499,7 +542,7 @@
           // Returns always true after reaching the location of the first section but only at specific position caused by the order of the OR arguments.
           // Priority decreases from left to right.
           return page >= page-first-sec and (
-            page == entry.sec.loc.page() or (entry.end != none and page < entry.end) or entry.end == none
+            page == entry.sec.loc.page() or (entry.end != none and page <= entry.end) or entry.end == none
           )
         })
       } else {
@@ -522,18 +565,31 @@
               x: 4em,
               y: 1.4em,
               grid(
-          columns: (1fr, 1fr, 1fr),
-          gutter: .4em,
-          if type(options.graphics-path) == str and type(options.dark-logo-filename) == str {
-            align(left, image(options.graphics-path + options.dark-logo-filename, fit: "contain", alt: "logo", height: 4em))
-          } else {
-            none
-          },
-          // debug
-          // text()[#secs] + text()[#sec_ends],
-          none,
-          align(right, text(..options.location-text-current)[#sec_display]),
-        ),
+                columns: (1fr, 1fr, 1fr),
+                gutter: .4em,
+                if type(options.graphics-path) == str and type(options.dark-logo-filename) == str {
+                  align(left, image(options.graphics-path + options.dark-logo-filename, fit: "contain", alt: "logo", height: 4em))
+                } else {
+                  none
+                },
+                // debug
+                // text()[#secs] + text()[#sec_ends],
+                none,
+                align(right,
+                  box(
+                    text(..options.location-text-current)[
+                      #place(
+                        move(dx: -2em, dy: -.26em,
+                          circle(radius: .65em, inset: 2pt, stroke: _frankenstein-palette.primary-100.darken(20%).transparentize(80%))[
+                            #circle(stroke: _frankenstein-palette.primary-100.darken(20%).transparentize(80%), fill: _frankenstein-palette.primary-100.darken(20%).transparentize(80%))
+                          ]
+                        )
+                      )
+                      #sec_display
+                    ]
+                  )
+                ),
+              ),
             )
           },
         )
@@ -690,17 +746,21 @@
   inset_y: 1em,
   grid-children: (),
 ) = {
+  let scaler = 1
+  if type(width) == ratio {
+    scaler = width
+  }
   if inset_top == none {
-    inset_top = inset_y
+    inset_top = inset_y * scaler
   }
   if inset_bottom == none {
-    inset_bottom = inset_y
+    inset_bottom = inset_y * scaler
   }
   if inset_left == none {
-    inset_left = inset_x
+    inset_left = inset_x * scaler
   }
   if inset_right == none {
-    inset_right = inset_x
+    inset_right = inset_x * scaler
   }
 
   let offset_top = 3fr
@@ -708,9 +768,9 @@
   let offset_left = 1fr
   let offset_right = 1fr
   if alignment.x == left {
-    offset_right = 6fr
+    offset_right = 3fr
   } else if alignment.x == right {
-    offset_left = 6fr
+    offset_left = 3fr
   }
 
   _frankenstein-content(
@@ -722,28 +782,17 @@
     ),
     grid-cell: (x: 3, y: 3),
     grid-children: grid-children,
-    align(alignment + horizon, box(text(fill: fg, body))),
+    align(alignment + horizon, box(align(left, text(fill: fg, body)))),
   )
 }
-
-// #let _frankenstein-split-content-box(fg, bg, width, alignment, body, inset: (x: 1em)) = box(
-//   width: width,
-//   height: 100%,
-//   outset: 0em,
-//   inset: inset,
-//   baseline: 0em,
-//   stroke: none,
-//   fill: bg,
-//   align(alignment + horizon, box(text(fill: fg, body))),
-// )
 
 // CONTENT SLIDES
 
 // frankenstein style slide.
 #let slide(
   title,
-  do-outline-register: false,
-  depth: 1,
+  do-outline-register: true,
+  depth: 2,
   header: auto,
   footer: auto,
   box-args: auto,
@@ -762,7 +811,7 @@
     let title-display
     if title != none {
       let should-get-outlined = depth == 1 and do-outline-register
-      title-display = box(
+      title-display = block( /* fill: black.transparentize(50%),  */
         pad(
           top: 1em,
           bottom: 3.7em,
@@ -799,42 +848,114 @@
   }
 }
 
+// TODO buggy.. fix bugginess
+#let WIP-two-column-slide(
+  title,
+  do-outline-register: true,
+  depth: 2,
+  header: auto,
+  footer: auto,
+  box-args: auto,
+  grid-args: auto,
+  grid-cell: auto,
+  grid-children: (),
+  body1,
+  body2,
+) = {
+  let body = grid(
+    rows: 1,
+    columns: (auto, auto, auto),
+    gutter: 1em,
+    body1, line(start: (50%, 15%), end: (50%, 30%), stroke: .5pt + _frankenstein-palette.secondary-200), body2,
+  )
+
+  slide(
+    title,
+    do-outline-register: do-outline-register,
+    depth: depth,
+    header: header,
+    footer: footer,
+    box-args: box-args,
+    grid-args: grid-args,
+    grid-cell: grid-cell,
+    grid-children: grid-children,
+    body,
+  )
+  place-logo(black)
+}
+
 #let new-section-slide(
   section-title,
-  section-subtitle: none,
+  subtitle: none,
+  uppercase-subtitle: true,
   do-outline-register: true,
   header: none,
   footer: auto,
   body,
-) = {
-  if type(section-title) != str {
-    panic("argument 'section-title' need to be a string, got type '" + type(section-title) + "' with value '" + str(section-title) + "'")
-  }
-  if section-subtitle != none and type(section-subtitle) != str {
-    panic("argument 'section-subtitle' need to be a string, got type '" + type(section-subtitle) + "' with value '" + str(section-subtitle) + "'")
-  }
-  let content = {
-    set align(horizon)
-    set enum(spacing: 1em)
-    show: pad.with(20%)
-    heading(outlined: do-outline-register)[#section-title]
-    v(1em)
-    block(height: 2pt, width: 100%, spacing: 0pt, frankenstein-progress-bar(height: 2pt))
-    if section-subtitle != none and section-subtitle != "" {
-      text(fill: _frankenstein-palette.secondary-200, section-subtitle)
+) = (
+  context {
+    let options = frankenstein-options.get()
+
+    if type(section-title) != str {
+      panic("argument 'section-title' need to be a string, got type '" + type(section-title) + "' with value '" + str(section-title) + "'")
     }
-    if body != [] {
-      linebreak()
-      v(1.5em)
-      set text(fill: _frankenstein-palette.cat-1)
-      box(width: 100%, pad(x: 7%, body))
+    if subtitle != none and type(subtitle) != str {
+      panic("argument 'section-subtitle' need to be a string, got type '" + type(subtitle) + "' with value '" + str(subtitle) + "'")
     }
+    if do-outline-register {
+      utils.register-section(section-title)
+    }
+
+    let heading-display = if options.style-headings {
+      let depth = 0
+
+      let texts = _as-array(options.heading-texts)
+      let style = if depth < texts.len() {
+        texts.at(depth)
+      } else {
+        (:)
+      }
+      // Do not hyphenate headings.
+      text(
+        ..options.heading-text,
+        ..style,
+        fill: _frankenstein-palette.primary-900.darken(26%).transparentize(15%),
+        weight: "thin",
+        size: 40pt,
+      )[#section-title]
+    } else {
+      section-title
+    }
+
+    let content = {
+
+      set align(horizon)
+      set enum(spacing: 1em)
+      show: pad.with(20%)
+      box(heading-display)
+      v(1em)
+      block(height: 2pt, width: 100%, spacing: 0pt, frankenstein-progress-bar(height: 2pt))
+      if subtitle != none and subtitle != "" {
+        let proper-subtitle = subtitle
+        if uppercase-subtitle {
+          proper-subtitle = upper(subtitle)
+        }
+        text(fill: _frankenstein-palette.secondary-200, proper-subtitle)
+      }
+      if body != [] {
+        linebreak()
+        v(1.5em)
+        set text(fill: _frankenstein-palette.cat-1)
+        box(width: 100%, pad(x: 7%, body))
+      }
+    }
+    slide(none, header: header, footer: footer, grid-args: none, content)
+    place-logo(black)
   }
-  slide(none, header: header, footer: footer, grid-args: none, content)
-}
+)
 
 // frankenstein style centered slide.
-#let centered-slide(title, do-outline-register: false, depth: 1, header: auto, footer: auto, box-args: auto, body) = {
+#let centered-slide(title, do-outline-register: true, depth: 2, header: auto, footer: auto, box-args: auto, body) = {
   context {
     if title != none and type(title) != str {
       panic("argument 'title' need to be a string, got type '" + type(title) + "' with value '" + str(title) + "'")
@@ -857,13 +978,105 @@
       grid-cell: (..frankenstein-options.get().slide-grid-cell, align: horizon + center),
       body,
     )
+    place-logo(black)
   }
 }
 
 // frankenstein style bare bones slide.
 #let bare-slide = logic.polylux-slide
 
-#let title-slide2(title, subtitle: none, author: [], date: none) = {
+#let west-slide(
+  title,
+  depth: 2,
+  do-outline-register: true,
+  header: auto,
+  footer: auto,
+  body,
+) = {
+  let content = context {
+    frankenstein-option-update((heading-text: (hyphenate: true)))
+    _frankenstein-split-content-box(
+      _frankenstein-palette.secondary-900,
+      frankenstein-options.get().location-bar-color,
+      30%,
+      center,
+      if title != none {
+        heading(outlined: do-outline-register, title)
+      } else {
+        []
+      },
+    )
+    frankenstein-option-update((heading-text: (hyphenate: false)))
+    _frankenstein-split-content-box(
+      _frankenstein-palette.secondary-600,
+      _frankenstein-palette.transparent,
+      70%,
+      left,
+      inset_right: 4em,
+      inset_left: 7em,
+      body,
+    )
+  }
+
+  slide(
+    none,
+    depth: depth,
+    do-outline-register: do-outline-register,
+    header: header,
+    footer: footer,
+    grid-args: none,
+    content,
+  )
+  place-logo(black)
+}
+
+#let east-slide(
+  title,
+  depth: 2,
+  do-outline-register: true,
+  header: auto,
+  footer: auto,
+  body,
+) = {
+  let content = {
+    _frankenstein-split-content-box(
+      _frankenstein-palette.secondary-900,
+      _frankenstein-palette.transparent,
+      70%,
+      right,
+      inset_right: 7em,
+      inset_left: 4em,
+      body,
+    )
+    frankenstein-option-update((heading-text: (hyphenate: true)))
+    _frankenstein-split-content-box(
+      _frankenstein-palette.secondary-900,
+      _frankenstein-palette.secondary-50,
+      30%,
+      center,
+      if title != none {
+        heading(outlined: do-outline-register, title)
+      } else {
+        []
+      },
+    )
+    frankenstein-option-update((heading-text: (hyphenate: false)))
+  }
+
+  slide(
+    none,
+    depth: depth,
+    do-outline-register: do-outline-register,
+    header: header,
+    footer: footer,
+    grid-args: none,
+    content,
+  )
+  place-logo(black)
+}
+
+// TODO
+#let WIP_title-slide2(title, subtitle: none, author: [], date: none) = {
   let title-block(fg, bg, height, body) = block(
     width: 100%,
     height: height,
@@ -906,86 +1119,8 @@
   logic.polylux-slide(content)
 }
 
-#let west-slide(
-  title,
-  header: auto,
-  footer: auto,
-  body,
-) = {
-  let content = context {
-    _frankenstein-split-content-box(
-      _frankenstein-palette.secondary-900,
-      frankenstein-options.get().location-bar-color,
-      30%,
-      center,
-      if title != none {
-        heading(outlined: false, title)
-      } else {
-        []
-      },
-    )
-    _frankenstein-split-content-box(
-      _frankenstein-palette.secondary-600,
-      _frankenstein-palette.transparent,
-      70%,
-      left,
-      inset_right: 4em,
-      inset_left: 7em,
-      body,
-    )
-  }
-
-  let logo = context {
-    let options = frankenstein-options.get()
-    place-logo(options.dark-logo-filename, graphics-path: options.graphics-path)
-  }
-
-  slide(none, header: header, footer: footer, grid-args: none, content)
-}
-
-#let east-slide(
-  title,
-  header: auto,
-  footer: auto,
-  body,
-) = {
-  let content = {
-    _frankenstein-split-content-box(
-      _frankenstein-palette.secondary-900,
-      _frankenstein-palette.transparent,
-      70%,
-      left,
-      inset_right: 7em,
-      inset_left: 4em,
-      body,
-    )
-    _frankenstein-split-content-box(
-      _frankenstein-palette.secondary-900,
-      _frankenstein-palette.secondary-50,
-      30%,
-      center,
-      if title != none {
-        heading(level: 2, title)
-      } else {
-        []
-      },
-    )
-  }
-
-  let logo = context {
-    let options = frankenstein-options.get()
-    place-logo(options.dark-logo-filename, graphics-path: options.graphics-path)
-  }
-
-  logic.polylux-slide(logo + grid(
-    rows: (1fr, auto),
-    columns: 1,
-    content,
-    frankenstein-short-info(leftsize: 30%, centersize: 40%, rightsize: 30%),
-  ))
-}
-
-#let split-slide(body-left, body-right) = {
+// TODO
+#let WIP_split-slide(body-left, body-right) = {
   let content = {
     _frankenstein-split-content-box(
       _frankenstein-palette.primary-900,
@@ -1005,7 +1140,8 @@
   logic.polylux-slide(content)
 }
 
-#let slide2(title, header: none, footer: none, new-section: none, body) = {
+// TODO
+#let WIP_slide2(title, header: none, footer: none, new-section: none, body) = {
   let body = pad(x: 2em, y: .5em, body)
 
   let progress-barline = locate(loc => {
@@ -1114,6 +1250,8 @@
 // frankenstein style slide.
 #let frankenstein-outline-slide(title, depth: 1, header: none, footer: auto, numbering: auto) = west-slide(
   title,
+  depth: depth,
+  do-outline-register: false,
   header: header,
   footer: footer,
 )[#frankenstein-outline(numbering: numbering)]
@@ -1188,10 +1326,29 @@
   )
   frankenstein-option-update(options)
 
+  let list-marker1(content) = pad(top: -.05em, text(size: 1.2em, fill: _frankenstein-palette.primary-700, [#content]))
+  let list-marker2(content) = pad(top: 0.01em, text(size: .9em, fill: _frankenstein-palette.primary-500, [#content]))
+  let list-marker3(content) = pad(top: .02em, text(size: .9em, fill: _frankenstein-palette.primary-400, [#content]))
+  let list-marker4(content) = pad(top: -.1em, text(size: 1.2em, fill: _frankenstein-palette.primary-300, [#content]))
+  let list-marker5(content) = pad(top: -.1em, text(size: 1.1em, fill: _frankenstein-palette.primary-200, [#content]))
+
   // Text setup.
   set par(leading: 0.7em, justify: true, linebreaks: "optimized")
   show par: set block(spacing: 1.35em)
-  set enum(numbering: "I.", tight: false, spacing: 2.5em)
+  set enum(
+    numbering: "I.a.1.",
+    tight: false,
+    spacing: 1.8em,
+    body-indent: 1.25em,
+    indent: -10pt,
+  )
+  set list(
+    marker: (list-marker1[⬢], list-marker2[⬟], list-marker3[⬥], list-marker4[▸], list-marker5[--]),
+    tight: false,
+    spacing: 1.8em,
+    body-indent: 1.25em,
+    indent: -10pt,
+  )
 
   // Any text
   show: it => (
