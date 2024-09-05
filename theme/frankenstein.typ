@@ -32,7 +32,7 @@
 }
 
 #let frankenstein-list(content) = (
-  layout( size => [
+  layout(size => [
     #let text-size = measure([#content])
     #let proper-width = text-size.width + 50pt
     #if proper-width > size.width {
@@ -47,8 +47,7 @@
       #set enum(numbering: "a.1.")
       #content
     ],
-    )]
-  )
+    )])
 )
 
 // frankenstein color palette for easy styling.
@@ -171,7 +170,7 @@
   heading-text: (font: ("Inter", "Cantarell", "Noto Sans", "Open Sans"), hyphenate: false, weight: "medium",tracking: .03em),
   // Heading text style overrides in order of heading depth.
   heading-texts: (
-    (/* depth 1 */fill: _frankenstein-palette.secondary-800, size: 1.2em,),
+    (/* depth 1 */fill: _frankenstein-palette.secondary-800, size: 1.2em, tracking: .02em),
     (/* depth 2 */size: 1.15em,),
     (/* depth 3 */size: 1.1em, ), /* depth ... */
   ),
@@ -262,6 +261,14 @@
   // The large one on the right.
   place(left + top, polygon(fill: fill.lighten(20%).transparentize(85%), (0%, 100%), (100%, 100%), (100%, 20%)))
 }
+
+#let frankenstein-image(filename, image-args: ()) = layout(size => (
+  context {
+    [
+      #image(frankenstein-options.get().at("graphics-path", default: "") + filename, fit: "contain", ..image-args)
+    ]
+  }
+))
 
 // frankenstein title text content. Draws only from defaults, fully customizable.
 #let _frankenstein-title-content(
@@ -758,7 +765,7 @@
     inset_top = inset_y * scaler
   }
   if inset_bottom == none {
-    inset_bottom = inset_y * scaler
+    inset_bottom = inset_y * scaler * 3.5
   }
   if inset_left == none {
     inset_left = inset_x * scaler
@@ -1000,6 +1007,9 @@
   title,
   depth: 2,
   do-outline-register: true,
+  subtitle: none,
+  title-width: 30%,
+  hyphenate: true,
   header: auto,
   footer: auto,
   body,
@@ -1009,10 +1019,12 @@
     _frankenstein-split-content-box(
       _frankenstein-palette.secondary-900,
       frankenstein-options.get().location-bar-color,
-      30%,
+      title-width,
       center,
       if title != none {
         heading(outlined: do-outline-register, title)
+        v(.5em)
+        text(fill: _frankenstein-palette.secondary-300, size: .9em, hyphenate: hyphenate, subtitle)
       } else {
         []
       },
@@ -1021,7 +1033,7 @@
     _frankenstein-split-content-box(
       _frankenstein-palette.secondary-600,
       _frankenstein-palette.transparent,
-      70%,
+      (100% - title-width),
       left,
       inset_right: 4em,
       inset_left: 7em,
@@ -1047,6 +1059,9 @@
   title,
   depth: 2,
   do-outline-register: true,
+  subtitle: none,
+  title-width: 30%,
+  hyphenate: true,
   header: auto,
   footer: auto,
   body,
@@ -1055,7 +1070,7 @@
     _frankenstein-split-content-box(
       _frankenstein-palette.secondary-900,
       _frankenstein-palette.transparent,
-      70%,
+      (100% - title-width),
       right,
       inset_right: 7em,
       inset_left: 4em,
@@ -1065,10 +1080,12 @@
     _frankenstein-split-content-box(
       _frankenstein-palette.secondary-900,
       _frankenstein-palette.secondary-50,
-      30%,
+      title-width,
       center,
       if title != none {
         heading(outlined: do-outline-register, title)
+        v(.5em)
+        text(fill: _frankenstein-palette.secondary-300, size: .9em, hyphenate: hyphenate, subtitle)
       } else {
         []
       },
