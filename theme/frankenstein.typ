@@ -881,7 +881,9 @@
     grid-children: grid-children,
     body,
   )
+  if header != auto and header != "progress+location" {
   place-logo(black)
+  }
 }
 
 #let new-section-slide(
@@ -950,7 +952,9 @@
       }
     }
     slide(none, header: header, footer: footer, grid-args: none, content)
+    if header != auto and header != "progress+location" {
     place-logo(black)
+    }
   }
 )
 
@@ -978,7 +982,9 @@
       grid-cell: (..frankenstein-options.get().slide-grid-cell, align: horizon + center),
       body,
     )
+    if header != auto and header != "progress+location" {
     place-logo(black)
+    }
   }
 }
 
@@ -1027,7 +1033,9 @@
     grid-args: none,
     content,
   )
+  if header != auto and header != "progress+location" {
   place-logo(black)
+  }
 }
 
 #let east-slide(
@@ -1072,7 +1080,9 @@
     grid-args: none,
     content,
   )
+  if header != auto and header != "progress+location" {
   place-logo(black)
+  }
 }
 
 // TODO
