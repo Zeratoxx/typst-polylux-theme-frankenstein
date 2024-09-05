@@ -32,19 +32,23 @@
 }
 
 #let frankenstein-list(content) = (
-  context {
-    let text-size = measure([#content])
+  layout( size => [
+    #let text-size = measure([#content])
+    #let proper-width = text-size.width + 50pt
+    #if proper-width > size.width {
+      proper-width = size.width
+    }
 
-    move(
+    #move(
       dx: 10pt,
       block(
-      /* fill: black.transparentize(50%), */
-      width: text-size.width + 50pt)[
+      // fill: black.transparentize(50%),
+      width: proper-width)[
       #set enum(numbering: "a.1.")
       #content
     ],
-    )
-  }
+    )]
+  )
 )
 
 // frankenstein color palette for easy styling.
