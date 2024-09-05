@@ -164,7 +164,7 @@
   // Title vertical spacing.
   title-gutter: 9%,
   // Common heading text style.
-  heading-text: (font: ("Inter", "Cantarell", "Noto Sans", "Open Sans"), hyphenate: false, weight: "medium",tracking: .04em),
+  heading-text: (font: ("Inter", "Cantarell", "Noto Sans", "Open Sans"), hyphenate: false, weight: "medium",tracking: .03em),
   // Heading text style overrides in order of heading depth.
   heading-texts: (
     (/* depth 1 */fill: _frankenstein-palette.secondary-800, size: 1.2em,),
@@ -882,7 +882,7 @@
     body,
   )
   if header != auto and header != "progress+location" {
-  place-logo(black)
+    place-logo(black)
   }
 }
 
@@ -921,9 +921,10 @@
       text(
         ..options.heading-text,
         ..style,
-        fill: _frankenstein-palette.primary-900.darken(26%).transparentize(15%),
+        fill: _frankenstein-palette.primary-900.darken(60%).transparentize(20%),
         weight: "thin",
-        size: 40pt,
+        tracking: 1pt,
+        size: 45pt,
       )[#section-title]
     } else {
       section-title
@@ -953,7 +954,7 @@
     }
     slide(none, header: header, footer: footer, grid-args: none, content)
     if header != auto and header != "progress+location" {
-    place-logo(black)
+      place-logo(black)
     }
   }
 )
@@ -983,7 +984,7 @@
       body,
     )
     if header != auto and header != "progress+location" {
-    place-logo(black)
+      place-logo(black)
     }
   }
 }
@@ -1034,7 +1035,7 @@
     content,
   )
   if header != auto and header != "progress+location" {
-  place-logo(black)
+    place-logo(black)
   }
 }
 
@@ -1081,7 +1082,7 @@
     content,
   )
   if header != auto and header != "progress+location" {
-  place-logo(black)
+    place-logo(black)
   }
 }
 
