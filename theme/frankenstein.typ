@@ -567,15 +567,7 @@
               grid(
                 columns: (1fr, 1fr, 1fr),
                 gutter: .4em,
-                if type(options.graphics-path) == str and type(options.dark-logo-filename) == str {
-                  align(left, image(options.graphics-path + options.dark-logo-filename, fit: "contain", alt: "logo", height: 4em))
-                } else {
-                  none
-                },
-                // debug
-                // text()[#secs] + text()[#sec_ends],
-                none,
-                align(right,
+                align(left,
                   box(
                     text(..options.location-text-current)[
                       #place(
@@ -589,6 +581,14 @@
                     ]
                   )
                 ),
+                // debug
+                // text()[#secs] + text()[#sec_ends],
+                none,
+                if type(options.graphics-path) == str and type(options.dark-logo-filename) == str {
+                  align(right, image(options.graphics-path + options.dark-logo-filename, fit: "contain", alt: "logo", height: 4em))
+                } else {
+                  none
+                },
               ),
             )
           },
