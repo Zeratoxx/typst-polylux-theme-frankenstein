@@ -935,7 +935,7 @@
       set align(horizon)
       set enum(spacing: 1em)
       show: pad.with(20%)
-      box(heading-display)
+      block(heading-display)
       v(1em)
       block(height: 2pt, width: 100%, spacing: 0pt, frankenstein-progress-bar(height: 2pt))
       if subtitle != none and subtitle != "" {
