@@ -21,7 +21,7 @@
 
 #centered-slide(none, header: frankenstein-bar("progress"))[#heading(outlined: false)[Welcome!]]
 
-#frankenstein-outline-slide()
+#frankenstein-outline-slide("Outline")
 
 #slide("Theme setup", depth: 2)[
   The title page was the result of:
@@ -45,7 +45,7 @@
   Which automatically generates a cover page if `cover` is set to `true`.
 ]
 
-#new-section-slide("Navigation", section-subtitle: "kekw")[#enum(numbering: "I.")[mach][mach][mach]]
+#new-section-slide("Navigation", subtitle: "kekw")[#enum(numbering: "I.")[mach][mach][mach]]
 
 #slide("Navigation")[
   Have you noticed the navigation bar at the top?
