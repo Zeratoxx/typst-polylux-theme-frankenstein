@@ -1022,7 +1022,7 @@
       title-width,
       center,
       if title != none {
-        heading(outlined: do-outline-register, title)
+        heading(depth: depth, outlined: do-outline-register, title)
         v(.5em)
         text(fill: _frankenstein-palette.secondary-300, size: .9em, hyphenate: hyphenate, subtitle)
       } else {
@@ -1083,7 +1083,7 @@
       title-width,
       center,
       if title != none {
-        heading(outlined: do-outline-register, title)
+        heading(depth: depth, outlined: do-outline-register, title)
         v(.5em)
         text(fill: _frankenstein-palette.secondary-300, size: .9em, hyphenate: hyphenate, subtitle)
       } else {
