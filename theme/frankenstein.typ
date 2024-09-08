@@ -265,7 +265,7 @@
 #let frankenstein-image(filename, image-args: ()) = layout(size => (
   context {
     [
-      #image(frankenstein-options.get().at("graphics-path", default: "") + filename, fit: "contain", ..image-args)
+      #pad(x: 2%, top: 2%, bottom: 15%, move(dy: 10pt,image(frankenstein-options.get().at("graphics-path", default: "") + filename, fit: "contain", ..image-args)))
     ]
   }
 ))
