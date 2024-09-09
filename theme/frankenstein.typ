@@ -1337,7 +1337,7 @@
   // frankenstein language.
   lang: "en",
   // pdfpc configs
-  pdfpc-config: none, 
+  pdfpc-config: none,
   // frankenstein theme options.
   options: (:),
   // Presentation contents.
