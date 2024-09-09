@@ -1336,6 +1336,8 @@
   version: "Draft",
   // frankenstein language.
   lang: "en",
+  // pdfpc configs
+  pdfpc-config: none, 
   // frankenstein theme options.
   options: (:),
   // Presentation contents.
@@ -1352,6 +1354,10 @@
   set document(title: title, author: authors.first().name, date: date, keywords: keywords)
 
   set page(paper: "presentation-" + aspect-ratio, margin: 0em, header: none, footer: none)
+
+  if pdfpc-config != none {
+    pdfpc.config(..pdfpc-config)
+  }
 
   // Update all options.
   let options = options + (
