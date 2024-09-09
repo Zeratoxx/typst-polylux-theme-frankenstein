@@ -941,8 +941,8 @@
       text(
         ..options.heading-text,
         ..style,
-        fill: _frankenstein-palette.primary-900.darken(60%).transparentize(20%),
-        weight: "thin",
+        fill: _frankenstein-palette.primary-500.darken(50%).desaturate(50%),
+        weight: "extralight",
         tracking: 1pt,
         size: 45pt,
       )[#section-title]
