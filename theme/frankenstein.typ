@@ -184,6 +184,7 @@
     columns: (auto, 3.5em, 1fr, auto, 1fr, 3.5em, auto),
     gutter: 0pt
   ),
+  grid-children: (),
   // Slide grid cell.
   slide-grid-cell: (x: 3, y: 3),
   // Color for external link anchors.
@@ -265,7 +266,15 @@
 #let frankenstein-image(filename, image-args: ()) = layout(size => (
   context {
     [
-      #pad(x: 2%, top: 2%, bottom: 15%, move(dy: 10pt,image(frankenstein-options.get().at("graphics-path", default: "") + filename, fit: "contain", ..image-args)))
+      #pad(
+        x: 2%,
+        top: 2%,
+        bottom: 15%,
+        move(
+          dy: 10pt,
+          image(frankenstein-options.get().at("graphics-path", default: "") + filename, fit: "contain", ..image-args),
+        ),
+      )
     ]
   }
 ))
@@ -745,7 +754,7 @@
 
 #let _frankenstein-split-content-box(
   fg,
-  bg,
+  // bg, // fill: bg breaks images in split content
   width,
   alignment,
   body,
@@ -785,7 +794,7 @@
   }
 
   _frankenstein-content(
-    box-args: (width: width, height: 100%, clip: true, fill: bg),
+    box-args: (width: width, height: 100%, clip: true, /* fill: bg */), // ???????? fill: bg breaks split content??!
     grid-args: (
       rows: (auto, inset_top, offset_top, auto, offset_bottom, inset_bottom, auto),
       columns: (auto, inset_left, offset_left, auto, offset_right, inset_right, auto),
@@ -1016,23 +1025,24 @@
 ) = {
   let content = context {
     frankenstein-option-update((heading-text: (hyphenate: true)))
-    _frankenstein-split-content-box(
-      _frankenstein-palette.secondary-900,
-      frankenstein-options.get().location-bar-color,
-      title-width,
-      center,
-      if title != none {
-        heading(depth: depth, outlined: do-outline-register, title)
-        v(.5em)
-        text(fill: _frankenstein-palette.secondary-300, size: .9em, hyphenate: hyphenate, subtitle)
-      } else {
-        []
-      },
+    box(
+      fill: frankenstein-options.get().location-bar-color,
+      _frankenstein-split-content-box(
+        _frankenstein-palette.secondary-900,
+        title-width,
+        center,
+        if title != none {
+          heading(depth: depth, outlined: do-outline-register, title)
+          v(.5em)
+          text(fill: _frankenstein-palette.secondary-300, size: .9em, hyphenate: hyphenate, subtitle)
+        } else {
+          []
+        },
+      ),
     )
     frankenstein-option-update((heading-text: (hyphenate: false)))
     _frankenstein-split-content-box(
       _frankenstein-palette.secondary-600,
-      _frankenstein-palette.transparent,
       (100% - title-width),
       left,
       inset_right: 4em,
@@ -1050,7 +1060,7 @@
     grid-args: none,
     content,
   )
-  if header != auto and header != "progress+location" {
+  if header != auto and header != frankenstein-bar("progress+location") {
     place-logo(black)
   }
 }
@@ -1066,10 +1076,9 @@
   footer: auto,
   body,
 ) = {
-  let content = {
+  let content = context {
     _frankenstein-split-content-box(
       _frankenstein-palette.secondary-900,
-      _frankenstein-palette.transparent,
       (100% - title-width),
       right,
       inset_right: 7em,
@@ -1077,18 +1086,20 @@
       body,
     )
     frankenstein-option-update((heading-text: (hyphenate: true)))
-    _frankenstein-split-content-box(
-      _frankenstein-palette.secondary-900,
-      _frankenstein-palette.secondary-50,
-      title-width,
-      center,
-      if title != none {
-        heading(depth: depth, outlined: do-outline-register, title)
-        v(.5em)
-        text(fill: _frankenstein-palette.secondary-300, size: .9em, hyphenate: hyphenate, subtitle)
-      } else {
-        []
-      },
+    box(
+      fill: frankenstein-options.get().location-bar-color,
+      _frankenstein-split-content-box(
+        _frankenstein-palette.secondary-900,
+        title-width,
+        center,
+        if title != none {
+          heading(depth: depth, outlined: do-outline-register, title)
+          v(.5em)
+          text(fill: _frankenstein-palette.secondary-300, size: .9em, hyphenate: hyphenate, subtitle)
+        } else {
+          []
+        },
+      ),
     )
     frankenstein-option-update((heading-text: (hyphenate: false)))
   }
@@ -1102,7 +1113,7 @@
     grid-args: none,
     content,
   )
-  if header != auto and header != "progress+location" {
+  if header != auto and header != frankenstein-bar("progress+location") {
     place-logo(black)
   }
 }
