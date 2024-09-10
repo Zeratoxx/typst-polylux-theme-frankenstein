@@ -942,7 +942,7 @@
         ..options.heading-text,
         ..style,
         fill: _frankenstein-palette.primary-500.darken(50%).desaturate(50%),
-        weight: "extralight",
+        weight: "thin",
         tracking: 1pt,
         size: 45pt,
       )[#section-title]
