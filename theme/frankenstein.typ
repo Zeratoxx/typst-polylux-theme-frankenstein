@@ -106,7 +106,7 @@
   // Presentation title.
   short-title: [Presentation title],
   // An abstract for your work. Can be omitted if you don't have one.
-  abstract: lorem(30),
+  abstract: lorem(10),
   // Presentation authors/presenters.
   authors: (
     frankenstein-author("Jane Doe", "Foo Ltd.", "jane.doe@foo.ltd"),
@@ -427,13 +427,43 @@
   let content = context {
     let options = frankenstein-options.get()
 
+    let title2 = title
+    let authors2 = authors
+    let abstract2 = abstract
+    let date2 = date
+    let version2 = version
+    let keywords2 = keywords
+    let hero2 = hero
+
     if hero == auto {
+      hero2 = options.at("hero", default: _frankenstein-defaults.hero)
+    }
+    if hero2 == auto {
       let fill = options.title-hero-color
       if fill != none {
         _frankenstein-hero(fill: fill)
       }
     } else {
-      place(top + left, block(width: 100%, height: 100%, hero))
+      place(top + left, block(width: 100%, height: 100%, hero2))
+    }
+
+    if title2 == none {
+      title2 = options.title
+    }
+    if authors2 == none {
+      authors2 = options.authors
+    }
+    if abstract2 == none {
+      abstract2 = options.abstract
+    }
+    if date2 == none {
+      date2 = options.date
+    }
+    if version2 == none {
+      version2 = options.version
+    }
+    if keywords2 == none {
+      keywords2 = options.keywords
     }
 
     if background != none {
@@ -448,13 +478,13 @@
         width: 100%,
         inset: 15%,
         _frankenstein-title-content(
-          title: title,
-          authors: authors,
-          abstract: abstract,
-          date: date,
+          title: title2,
+          authors: authors2,
+          abstract: abstract2,
+          date: date2,
           date-format: options.date-format,
-          version: version,
-          keywords: keywords,
+          version: version2,
+          keywords: keywords2,
           title-text: options.title-text,
           heading-text: options.title-heading-text,
           author-text: options.title-author-text,
@@ -626,6 +656,7 @@
   pad-left: 4em,
   pad-right: 3em,
   pad-y: 2em,
+  show-page-number: true,
 ) = {
   locate(loc => {
     // Get the variables at this stage or final.
@@ -638,23 +669,34 @@
     let content = {
       ()
     }
-    content.push(pad(left: pad-left, text(options.date.display("[day].[month].[year]"))))
+    content.push(pad(left: pad-left, text(options.date.display(options.date-format))))
 
+    let center-content = options.short-title
+    if center-content == [] or center-content == none {
+      center-content = ""
+    }
     if options.show-authors-in-short-info and options.authors != none and options.authors.len() > 0 {
-      content.push(
-        align(
-          center,
-          text(options.short-title + linebreak() + options.authors.at(0).name + " — " + options
-            .authors
-            .at(0)
-            .affiliation),
-        ),
-      )
-    } else {
-      content.push(align(center, text(options.short-title)))
+      if center-content != "" or center-content != [] or center-content != none {
+        center-content += linebreak()
+      }
+      center-content += options.authors.at(0).name + " — " + options.authors.at(0).affiliation
     }
 
-    content.push(align(right, pad(right: pad-right, text(str(page)))))
+    content.push(align(center, text(center-content)))
+
+    content.push(
+      align(
+        right,
+        pad(
+          right: pad-right,
+          text(if show-page-number {
+            str(page)
+          } else {
+            []
+          }),
+        ),
+      ),
+    )
 
     // Combine into a block that fills the header.
     // TODO place location through parameter, block fill color through options
@@ -996,7 +1038,7 @@
       footer: footer,
       box-args: box-args,
       grid-args: (
-        rows: (auto, 1em, 1fr, auto, 1fr, 1em, auto),
+        rows: (auto, 1em, 3fr, auto, 4fr, 1em, auto),
         columns: (auto, 2em, 1fr, auto, 1fr, 2em, auto),
         gutter: 0pt,
       ),
