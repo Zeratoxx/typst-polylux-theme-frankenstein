@@ -1030,6 +1030,10 @@
     if type(do-outline-register) != bool {
       panic("argument 'do-outline-register' need to be a boolean, got type '" + type(do-outline-register) + "' with value '" + str(do-outline-register) + "'")
     }
+    let lower-fraction = 5fr
+    if title == none {
+      lower-fraction = 3fr
+    }
     slide(
       title,
       do-outline-register: do-outline-register,
@@ -1038,7 +1042,7 @@
       footer: footer,
       box-args: box-args,
       grid-args: (
-        rows: (auto, 1em, 3fr, auto, 4fr, 1em, auto),
+        rows: (auto, 1em, 3fr, auto, lower-fraction, 1em, auto),
         columns: (auto, 2em, 1fr, auto, 1fr, 2em, auto),
         gutter: 0pt,
       ),
