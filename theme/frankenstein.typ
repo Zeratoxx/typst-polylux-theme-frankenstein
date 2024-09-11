@@ -706,7 +706,7 @@
     )
 
     // Combine into a block that fills the header.
-    // TODO place location through parameter, block fill color through options
+    // TODO block fill color through options
     place(
       align_y,
       block(
