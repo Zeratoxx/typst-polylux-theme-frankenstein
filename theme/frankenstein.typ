@@ -429,6 +429,7 @@
   hero: auto,
   // Whether to register this slide title as a section.
   register-section: false,
+  body: none
 ) = {
   let content = context {
     let options = frankenstein-options.get()
@@ -506,7 +507,7 @@
       foreground
     }
   }
-  logic.polylux-slide(max-repetitions: 3, content)
+  logic.polylux-slide(max-repetitions: 3, content + body)
 }
 
 // CONTENT SLIDE HELPERS
