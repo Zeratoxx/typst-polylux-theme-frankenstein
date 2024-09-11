@@ -142,10 +142,10 @@
   // What to show as the "hero" or background image on title slides. `auto` means
   // the theme's default background (auto, content, none).
   hero: auto,
-  // What to show in the header ("progress", "progress+location", "short-info", content, none).
+  // What to show in the header ("progress", "progress+location", "short-info-top", "short-info-bottom", content, none).
   header: "progress+location",
-  // What to show in the footer ("progress", "progress+location", "short-info", content, none).
-  footer: "short-info",
+  // What to show in the footer ("progress", "progress+location", "short-info-top", "short-info-bottom", content, none).
+  footer: "short-info-bottom",
   // Title background color.
   title-hero-color: _frankenstein-palette.secondary-800,
   // Title text style.
@@ -278,6 +278,12 @@
     ]
   }
 ))
+
+#let frankenstein-image-plain(filename, image-args: ()) = (
+  context {
+    image(frankenstein-options.get().at("graphics-path", default: "") + filename, fit: "contain", ..image-args)
+  }
+)
 
 // frankenstein title text content. Draws only from defaults, fully customizable.
 #let _frankenstein-title-content(
@@ -650,6 +656,7 @@
 
 // frankenstein style short information bar. Draws everything from options.
 #let frankenstein-short-info(
+  align_y,
   leftsize: 2fr,
   centersize: 6fr,
   rightsize: 2fr,
@@ -701,7 +708,7 @@
     // Combine into a block that fills the header.
     // TODO place location through parameter, block fill color through options
     place(
-      bottom,
+      align_y,
       block(
         fill: _frankenstein-palette.transparent,
         width: 100%,
@@ -722,8 +729,10 @@
     frankenstein-location-info()
   } else if kind == "progress" {
     frankenstein-location-info(show-location: false)
-  } else if kind == "short-info" {
-    frankenstein-short-info()
+  } else if kind == "short-info-top" {
+    frankenstein-short-info(top)
+  } else if kind == "short-info-bottom" {
+    frankenstein-short-info(bottom)
   } else if kind == none {
     []
   } else {
@@ -883,6 +892,20 @@
         ),
       )
     }
+    let should-place-logo = false
+    let header = if header == auto {
+      _frankenstein-header()
+      if frankenstein-options.get().header == "progress" {
+        should-place-logo = true
+      }
+    } else {
+      header
+    }
+    let footer = if footer == auto {
+      _frankenstein-footer()
+    } else {
+      footer
+    }
     let inner = {
       stack(dir: ttb, title-display, body)
     }
@@ -893,20 +916,13 @@
       grid-children: grid-children,
       inner,
     )
-    let header = if header == auto {
-      _frankenstein-header()
-    } else {
-      header
-    }
-    let footer = if footer == auto {
-      _frankenstein-footer()
-    } else {
-      footer
-    }
     logic.polylux-slide(
       max-repetitions: 3,
       grid(columns: 1, gutter: 0pt, rows: (auto, 1fr, auto), ..(header, content, footer)),
     )
+    if should-place-logo {
+      place-logo(black)
+    }
   }
 }
 
@@ -943,9 +959,6 @@
     grid-children: grid-children,
     body,
   )
-  if header != auto and header != "progress+location" {
-    place-logo(black)
-  }
 }
 
 #let new-section-slide(
@@ -1015,9 +1028,6 @@
       }
     }
     slide(none, header: header, footer: footer, grid-args: none, content)
-    if header != auto and header != "progress+location" {
-      place-logo(black)
-    }
   }
 )
 
@@ -1049,9 +1059,6 @@
       grid-cell: (..frankenstein-options.get().slide-grid-cell, align: horizon + center),
       body,
     )
-    if header != auto and header != "progress+location" {
-      place-logo(black)
-    }
   }
 }
 
@@ -1106,9 +1113,6 @@
     grid-args: none,
     content,
   )
-  if header != auto and header != frankenstein-bar("progress+location") {
-    place-logo(black)
-  }
 }
 
 #let east-slide(
@@ -1159,9 +1163,6 @@
     grid-args: none,
     content,
   )
-  if header != auto and header != frankenstein-bar("progress+location") {
-    place-logo(black)
-  }
 }
 
 // TODO
