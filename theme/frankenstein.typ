@@ -687,7 +687,7 @@
       if center-content != "" or center-content != [] or center-content != none {
         center-content += linebreak()
       }
-      center-content += options.authors.at(0).name + " — " + options.authors.at(0).affiliation
+      center-content += options.authors.at(0).name + if options.authors.at(0).affiliation != "" and options.authors.at(0).affiliation != [] and options.authors.at(0).affiliation != none {" — " + options.authors.at(0).affiliation}
     }
 
     content.push(align(center, text(center-content)))
